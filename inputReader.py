@@ -13,7 +13,8 @@ gxl_path = 'gxl/'
 def get_graphs():
     graphs = {}
     for g in get_files():
-        graphs[g] = create_graph(ET.parse(join(gxl_path, g)))
+        key = int(g[:-4])
+        graphs[key] = create_graph(ET.parse(join(gxl_path, g)))
 
     return graphs
 
