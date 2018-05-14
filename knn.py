@@ -14,12 +14,12 @@ def readTxtFile(path):
             labels[int(row[0])] = row[1]
     return labels
 
-
+"""
 def showGraph(graph):
     plt.subplot(121)
     nx.draw(graph, with_labels=True, font_weight='bold')
     plt.show()
-
+"""
 
 def main():
     # get data
@@ -43,16 +43,37 @@ def main():
     
     # Generate predictions
     predictions=[]
-    k = 1
-    for valid_label_key in valid_label_keys:
-        # Get the k nearest neighbors (i.e. train_label_keys) through GED distance algorithm
-        kNN_GED = getkNN_GED(graphs, train_label_keys, valid_label_key, k)
-        # Get the label occuring the most among the k nearest neighbors
-        result_label = getResponse(train_labels, kNN_GED)
-        predictions.append((valid_label_key, result_label))
-    # Get the accuracy. Compares test_label with prediction_label. How well is the testing set?
-    labels_score = getAccuracy(valid_labels, predictions)
-    print('Accuracy: ' + repr(labels_score) + '%')
+    rounds = len(valid_label_keys)
+    accuracies=[]
+    acc_k = []  # list of (accuracy, k)
+    list_of_k = [1,3,5]
+    for k in list_of_k:
+        for valid_label_key in valid_label_keys:
+            # Get the k nearest neighbors (i.e. train_label_keys) through GED distance algorithm
+            kNN_GED = getkNN_GED(graphs, train_label_keys, valid_label_key, k)
+            # Get the label occuring the most among the k nearest neighbors
+            result_label = getResponse(train_labels, kNN_GED)
+            rounds = rounds - 1
+            print('k = '+ repr(k) + ', valid key: ' + repr(valid_label_key) + ', valid label: ' + repr(valid_labels[valid_label_key]) + ', predicted label: ' + repr(result_label) + ', ' + repr(rounds) + ' rounds left')
+            predictions.append((valid_label_key, result_label))
+        # Get the accuracy. Compares test_label with prediction_label. How well is the testing set?
+        labels_score = getAccuracy(valid_labels, predictions)
+        print('Accuracy ' + repr(labels_score) + '% with k = ' + repr(k))  # output: accuracy 98.0% at k = 1
+        accuracies.append(labels_score)
+    for x in range(len(accuracies)): # len(accuracies) is equal to len(list_of_k)
+        acc_k.append((accuracies[x], list_of_k[x]))
+        print('Accuracy ' + repr(accuracies[x]) + '% with k = ' + repr(list_of_k[x]))
+
+    # Best accuracy
+    acc_k.sort(key=operator.itemgetter(0)) # sort in ascending order
+    print('Best Accuracy ' + repr(acc_k[-1][0]) + ' with k = ' + repr(acc_k[-1][1]))
+    # Make plot
+    plt.plot(list_of_k, accuracies, 'ro')
+    plt.axis([0, list_of_k[-1]+2, 0, 100])
+    plt.show()
+
+    
+
     
     """
 
@@ -88,7 +109,7 @@ def getkNN_GED(graphs, train_label_keys, valid_label_key, k):
 
 
 def getResponse(train_labels, kNN):
-    # Returns the label occuring the most among the k nearest neighbors
+    # Returns the label occurring the most among the k nearest neighbors
     
     # classVotes is a key:value list
     classVotes = {}
@@ -107,7 +128,7 @@ def getResponse(train_labels, kNN):
 
 
 def getAccuracy(valid_labels, predictions):
-    # Returns the accuracy of predictions (list of (valid_label_key, result_key)) in %, which is the ratio
+    # Returns the accuracy of predictions (list of (valid_label_key, result_label)) in %, which is the ratio
     # of the total correct (test-label-)predictions out of all predictions made
     correct = 0
     for x in range(len(predictions)):
