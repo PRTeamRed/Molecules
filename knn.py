@@ -44,9 +44,17 @@ def main():
     # Generate predictions
     predictions=[]
     rounds = len(valid_label_keys)
-    accuracies=[]
-    acc_k = []  # list of (accuracy, k)
+    #accuracies=[]
+    #acc_k = []  # list of (accuracy, k)
     list_of_k = [1,3,5]
+    accuracies = [98.0,98.2,98.53333333333333]
+    acc_k = [[98.0,1],[98.2,3],[98.53333333333333,5]]
+
+    # Make plot
+    plt.plot(list_of_k, accuracies, 'ro')
+    plt.axis([0, list_of_k[-1]+1, int(acc_k[0][0])-1, 100])
+    plt.show()
+    """
     for k in list_of_k:
         for valid_label_key in valid_label_keys:
             # Get the k nearest neighbors (i.e. train_label_keys) through GED distance algorithm
@@ -60,6 +68,7 @@ def main():
         labels_score = getAccuracy(valid_labels, predictions)
         print('Accuracy ' + repr(labels_score) + '% with k = ' + repr(k))  # output: accuracy 98.0% at k = 1
         accuracies.append(labels_score)
+        rounds = len(valid_label_keys)
     for x in range(len(accuracies)): # len(accuracies) is equal to len(list_of_k)
         acc_k.append((accuracies[x], list_of_k[x]))
         print('Accuracy ' + repr(accuracies[x]) + '% with k = ' + repr(list_of_k[x]))
@@ -67,10 +76,8 @@ def main():
     # Best accuracy
     acc_k.sort(key=operator.itemgetter(0)) # sort in ascending order
     print('Best Accuracy ' + repr(acc_k[-1][0]) + ' with k = ' + repr(acc_k[-1][1]))
-    # Make plot
-    plt.plot(list_of_k, accuracies, 'ro')
-    plt.axis([0, list_of_k[-1]+2, 0, 100])
-    plt.show()
+    """
+
 
     
 
