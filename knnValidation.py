@@ -24,7 +24,7 @@ def showGraph(graph):
 def main():
     output = open('KNN_output.txt', 'w')
     training_path = 'gxl/'
-    valid_path = 'testmolecules/gxl'
+    valid_path = 'gxl_remaining'
     # get data for training the KNN 
     graphs_training = inputReaderPath.get_graphs(training_path)
     #get data for the validation set
