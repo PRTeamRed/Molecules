@@ -8,6 +8,7 @@ return a dictonary with the file name as key and the graph as value
 """
 
 gxl_path = 'gxl/'
+validation_path = 'testmolecules/gxl'
 
 
 def get_graphs(path):
