@@ -34,7 +34,7 @@ def main():
     train_labels = readTxtFile('train.txt')
     train_label_keys = train_labels.keys()  # Not neccessary, but for readability
     # valid_labels is a list of file names without the extension 
-    valid_ids = [graphs_validation.keys()]
+    valid_ids = list(graphs_validation.keys())
 
 
     """ ********* graph_edit_dist is not recognized by KNeighborsClassifier.
