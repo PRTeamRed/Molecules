@@ -47,7 +47,7 @@ def main():
     
     for id_index, unknown_graph in enumerate(graphs_validation):
         # Get the k nearest neighbors (i.e. train_label_keys) through GED distance algorithm
-        kNN_GED = getkNN_GED(graphs_training, train_label_keys, unknown_graph, 5)
+        kNN_GED = getkNN_GED(graphs_training, graphs_validation, train_label_keys, unknown_graph, 5)
         # Get the label occuring the most among the k nearest neighbors
         result_label = getResponse(train_labels, kNN_GED)
         output.write("test_ID{}, predicted_class_{}\n".format(valid_ids[id_index], result_label))
@@ -85,7 +85,7 @@ def main():
     """
 
 
-def getkNN_GED(graphs, train_label_keys, valid_label_key, k):
+def getkNN_GED(graphs_train, graphs_valid, train_label_keys, valid_label_key, k):
     # Returns the k nearest neighbors (i.e. train_label_keys) through GED distance algorithm
     
     distances = []
@@ -94,7 +94,7 @@ def getkNN_GED(graphs, train_label_keys, valid_label_key, k):
     # into array of distances.
     for train_label_key in train_label_keys:
         # compare two graphs
-        dist = graph_edit_dist.compare(graphs[valid_label_key], graphs[train_label_key])
+        dist = graph_edit_dist.compare(graphs_valid[valid_label_key], graphs_train[train_label_key])
         distances.append((train_label_key, dist))
     # sort list of tuples of distances in ascending order
     # regarding the second item of the tuples, i.e. the distances
