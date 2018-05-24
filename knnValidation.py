@@ -34,8 +34,7 @@ def main():
     train_labels = readTxtFile('train.txt')
     train_label_keys = train_labels.keys()  # Not neccessary, but for readability
     # valid_labels is a list of file names without the extension 
-    valid_ids = inputReaderPath.get_files(valid_path)
-    valid_ids = [v.split('.')[0] for v in valid_ids]
+    valid_ids = [graphs_validation.keys()]
 
 
     """ ********* graph_edit_dist is not recognized by KNeighborsClassifier.
@@ -51,7 +50,7 @@ def main():
         kNN_GED = getkNN_GED(graphs_training, train_label_keys, unknown_graph, 5)
         # Get the label occuring the most among the k nearest neighbors
         result_label = getResponse(train_labels, kNN_GED)
-        output.write("{}\t{}\n".format(valid_ids[id_index], result_label))
+        output.write("test_ID{},  predicted_class{}\n".format(valid_ids[id_index], result_label))
         output.flush()
     output.close()
     # Get the accuracy. Compares test_label with prediction_label. How well is the testing set?
