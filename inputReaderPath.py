@@ -8,13 +8,13 @@ return a dictonary with the file name as key and the graph as value
 """
 
 gxl_path = 'gxl/'
-validation_path = 'testmolecules/gxl'
+
 
 def get_graphs(path):
     graphs = {}
-    for g in get_files(gxl_path):
+    for g in get_files(path):
         key = int(g[:-4])
-        graphs[key] = create_graph(ET.parse(join(gxl_path, g)))
+        graphs[key] = create_graph(ET.parse(join(path, g)))
 
     return graphs
 
