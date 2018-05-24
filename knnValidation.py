@@ -50,7 +50,7 @@ def main():
         kNN_GED = getkNN_GED(graphs_training, train_label_keys, unknown_graph, 5)
         # Get the label occuring the most among the k nearest neighbors
         result_label = getResponse(train_labels, kNN_GED)
-        output.write("test_ID{},  predicted_class{}\n".format(valid_ids[id_index], result_label))
+        output.write("test_ID{}, predicted_class_{}\n".format(valid_ids[id_index], result_label))
         output.flush()
     output.close()
     # Get the accuracy. Compares test_label with prediction_label. How well is the testing set?
