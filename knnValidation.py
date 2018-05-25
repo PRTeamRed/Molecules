@@ -22,7 +22,7 @@ def showGraph(graph):
 """
 
 def main():
-    output = open('KNN_output.txt', 'w')
+    output = open('KNN_output_remaining.txt', 'w')
     training_path = 'gxl/'
     valid_path = 'gxl_remaining'
     # get data for training the KNN 
