@@ -1,13 +1,14 @@
 # Molecules
-run:
+### install
 ```
 pip install -r requirements.txt
 ```
-To install the requirements and then
+
+And then follow the instruction in ged4py/installinfo.md
+
+### run
 
 ```
-pip install .
+python knnValidation.py
 ```
-to install the package as a module.
 
-This command has to be called in the ged4py root folder (that's the folder containing the setup.py file)
